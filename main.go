@@ -18,6 +18,7 @@ func main() {
 		pid      bool
 		counter  bool
 		timeInfo bool
+		nilID    bool
 	)
 
 	flag.IntVar(&count, "n", 1, "Number of IDs to generate")
@@ -27,6 +28,7 @@ func main() {
 	flag.BoolVar(&pid, "p", false, "Show process ID part when decoding")
 	flag.BoolVar(&counter, "c", false, "Show counter part when decoding")
 	flag.BoolVar(&timeInfo, "time", false, "Show timestamp part when decoding")
+	flag.BoolVar(&nilID, "nil", false, "Generate a Nil ID") // Added NilID flag definition
 	flag.Parse()
 
 	// Decode mode
@@ -61,6 +63,12 @@ func main() {
 	}
 
 	// Generate mode
+	if nilID {
+		// If nilID flag is set, output NilID regardless of count
+		fmt.Println(xid.NilID().String())
+		return
+	}
+
 	var t time.Time
 	if timeStr != "" {
 		var err error
